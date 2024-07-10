@@ -1,12 +1,13 @@
 from src.infra.db.settings import DBConnectionHandler
 from src.infra.db.models import Users
+from src.data.interfaces import UserRepositoryInterface
+from src.domain.entites import Users as UserEntity
 
 
-class UserRepository:
+class UserRepository(UserRepositoryInterface):
     """Class to manage User Repository"""
 
-    @classmethod
-    def insert_user(cls, name: str, email: str, password: str) -> None:
+    def insert_user(self, name: str, email: str, password: str) -> Users:
         """
         Insert data from the User entity into the database
             * parameters:
@@ -22,6 +23,12 @@ class UserRepository:
 
                 database.session.add(new_user)
                 database.session.commit()
+                return UserEntity(
+                    user_id=new_user.id,
+                    name=new_user.name,
+                    email=new_user.email,
+                    password=new_user.password,
+                )
             except Exception as exception:
                 database.session.rollback()
                 raise exception

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class UserInsertInterface(ABC):
+class InsertUserInterface(ABC):
     """Interface to UserInsert use case"""
 
     @abstractmethod
