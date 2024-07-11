@@ -18,7 +18,7 @@ class InsertUser(InsertUserInterface):
         self.__user_repository = user_repository
         self.__hashing_service = hashing_service
 
-    def insert(self, name: str, email: str, password: str) -> None:
+    def insert(self, name: str, email: str, password: str) -> Dict:
         self.__validate_name(name)
         self.__validate_email(email)
         self.__validate_password(password)
