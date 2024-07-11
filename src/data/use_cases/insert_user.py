@@ -5,6 +5,7 @@ from src.domain.use_cases import InsertUserInterface
 from src.data.interfaces import UserRepositoryInterface
 from src.domain.use_cases import HashingServiseInterface
 from src.domain.entites import Users
+from src.errors.types import HttpBadRequestError
 
 
 class InsertUser(InsertUserInterface):
@@ -30,13 +31,13 @@ class InsertUser(InsertUserInterface):
     @classmethod
     def __validate_name(cls, name: str):
         if not re.match(r"^[A-Za-z ]+$", name):
-            raise Exception("Nome inválido")
+            raise HttpBadRequestError("Nome inválido")
 
     @classmethod
     def __validate_email(cls, email: str):
         pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         if not re.match(pattern, email):
-            raise Exception("Email inválido")
+            raise HttpBadRequestError("Email inválido")
 
     @classmethod
     def __validate_password(cls, password):
@@ -48,7 +49,7 @@ class InsertUser(InsertUserInterface):
         ):
             msg = "Senha inválida, a senha deve ter pelo menos 8 caracteres. Contendo"
             msg += " letras maiúsculas e minúsculas, numeros, e carcteres especiais"
-            raise Exception(msg)
+            raise HttpBadRequestError(msg)
 
     def __save_user_informations(self, name: str, email: str, password: str) -> Users:
         return self.__user_repository.insert_user(name, email, password)
