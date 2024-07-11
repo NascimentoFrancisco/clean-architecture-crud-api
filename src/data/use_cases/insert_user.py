@@ -3,26 +3,33 @@ import re
 from typing import Type, Dict
 from src.domain.use_cases import InsertUserInterface
 from src.data.interfaces import UserRepositoryInterface
+from src.domain.use_cases import HashingServiseInterface
 from src.domain.entites import Users
 
 
 class InsertUser(InsertUserInterface):
     """Class that implements the InsertUser use case"""
 
-    def __init__(self, user_repository: Type[UserRepositoryInterface]) -> None:
+    def __init__(
+        self,
+        user_repository: Type[UserRepositoryInterface],
+        hashing_service: Type[HashingServiseInterface],
+    ) -> None:
         self.__user_repository = user_repository
+        self.__hashing_service = hashing_service
 
     def insert(self, name: str, email: str, password: str) -> None:
         self.__validate_name(name)
         self.__validate_email(email)
         self.__validate_password(password)
 
-        user = self.__save_user_informations(name, email, password)
+        encrypted_password = self.__hashing_service.encrypt_password(password)
+        user = self.__save_user_informations(name, email, encrypted_password)
         return self.__format_response(user)
 
     @classmethod
     def __validate_name(cls, name: str):
-        if not name.isalpha():
+        if not re.match(r"^[A-Za-z ]+$", name):
             raise Exception("Nome inválido")
 
     @classmethod
@@ -35,9 +42,9 @@ class InsertUser(InsertUserInterface):
     def __validate_password(cls, password):
         if (
             len(password) < 8
-            and not re.search(r'[!@#$%^&*(),.?":{}|<>]', password)
-            and not re.search(r"[a-z]", password)
-            and not re.search(r"[0-9]", password)
+            or not re.search(r'[!@#$%^&*(),.?":{}|<>]', password)
+            or not re.search(r"[a-z]", password)
+            or not re.search(r"[0-9]", password)
         ):
             msg = "Senha inválida, a senha deve ter pelo menos 8 caracteres. Contendo"
             msg += " letras maiúsculas e minúsculas, numeros, e carcteres especiais"

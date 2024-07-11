@@ -7,7 +7,7 @@ from src.domain.entites import Users as UserEntity
 class UserRepository(UserRepositoryInterface):
     """Class to manage User Repository"""
 
-    def insert_user(self, name: str, email: str, password: str) -> Users:
+    def insert_user(self, name: str, email: str, password: str) -> UserEntity:
         """
         Insert data from the User entity into the database
             * parameters:
