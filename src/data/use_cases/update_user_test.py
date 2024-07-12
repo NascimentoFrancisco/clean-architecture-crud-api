@@ -63,3 +63,19 @@ def test_update_user_name_or_email_invalid():
         assert False
     except Exception as exception:
         assert str(exception) == "Email inválido"
+
+
+def test_update_user_data_null():
+    """Testing with data null"""
+
+    user_id = "1331313"
+    data = {}
+
+    user_repository = UsersRpositorySpy()
+    update_user_case = UpdateUser(user_repository)
+
+    try:
+        update_user_case.update(user_id, **data)
+        assert False
+    except Exception as exception:
+        assert str(exception) == "name ou email deve ser informado"

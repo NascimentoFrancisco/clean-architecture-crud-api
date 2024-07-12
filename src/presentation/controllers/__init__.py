@@ -1,2 +1,3 @@
 from .insert_user_controller import InsertUserController
 from .select_user_controller import SelectUserController
+from .update_user_controller import UpdateUserController

@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Type
 from src.domain.entites.users import Users
-from src.errors.types import HttpBadRequestError
+from src.errors.types import HttpBadRequestError, HttpUnprocessableEntityError
 from src.data.interfaces import UserRepositoryInterface
 from src.domain.use_cases import UpdateUserInterface
 
@@ -26,6 +26,9 @@ class UpdateUser(UpdateUserInterface):
 
     @classmethod
     def __validate_data(cls, data: Dict) -> None:
+        if data == {}:
+            raise HttpUnprocessableEntityError("name ou email deve ser informado")
+
         if "name" in data:
             if not re.match(r"^[A-Za-z ]+$", data["name"]):
                 raise HttpBadRequestError("Nome inválido")
