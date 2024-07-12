@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from src.main.adapters import request_adapter
 from src.main.composers import insert_user_composer
+from src.main.composers import select_user_composer
 from src.errors import handler_errors
-from src.validators import insert_user_validator
+from src.validators import insert_user_validator, select_user_validator
 
 user_routes_bp = Blueprint("user_routes", __name__)
 
@@ -16,6 +17,21 @@ def insert_user():
     try:
         insert_user_validator(request)
         http_response = request_adapter(request, insert_user_composer())
+    except Exception as exception:
+        http_response = handler_errors(exception)
+
+    return jsonify(http_response.body), http_response.status_code
+
+
+@user_routes_bp.route("/user/select", methods=["GET"])
+def select_user():
+    """Route select User"""
+
+    http_response = None
+
+    try:
+        select_user_validator(request)
+        http_response = request_adapter(request, select_user_composer())
     except Exception as exception:
         http_response = handler_errors(exception)
 

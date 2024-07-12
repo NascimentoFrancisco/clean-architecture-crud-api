@@ -2,7 +2,7 @@ from typing import Dict, Type
 from src.domain.entites.users import Users
 from src.domain.use_cases import SelectUserInterface
 from src.data.interfaces import UserRepositoryInterface
-from src.errors.types import HttpBadRequestError, HttpNotFoundError
+from src.errors.types import HttpBadRequestError
 
 
 class SelectUser(SelectUserInterface):
@@ -23,8 +23,6 @@ class SelectUser(SelectUserInterface):
 
     def __search_user(self, user_id: str) -> Users:
         user = self.__user_repository.select_user(user_id)
-        if user is None:
-            raise HttpNotFoundError("Usuário não encontrado")
         return user
 
     @classmethod

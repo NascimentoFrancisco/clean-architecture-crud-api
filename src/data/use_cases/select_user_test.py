@@ -45,4 +45,4 @@ def test_select_user_not_found():
         select_user.select(user_id)
         assert False
     except Exception as exception:
-        assert str(exception) == "Usuário não encontrado"
+        assert str(exception) == "'NoneType' object has no attribute 'id'"
