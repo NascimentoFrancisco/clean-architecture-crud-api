@@ -54,3 +54,35 @@ class UserRepository(UserRepositoryInterface):
             except Exception as exception:
                 database.session.rollback()
                 raise exception
+
+    def update_user(self, user_id: str, **kwargs) -> UserEntity:
+        """
+        Updates a user's data by searching for their ID
+            * parameters:
+                - user_id: id of the user(necessary parameter to identify the user for the role)
+                - name(str): name of  the user(Default value null if none provided)
+                - email(str): email of  the user(Default value null if none provided)
+            * retrun:
+                - An object of the User entity
+        """
+        with DBConnectionHandler() as database:
+            try:
+                user = database.session.query(Users).filter(Users.id == user_id).one()
+                columns = [c.name for c in user.__table__.columns]
+
+                for col in columns:
+                    if col in kwargs:
+                        setattr(user, col, kwargs[col])
+
+                database.session.commit()
+                database.session.refresh(user)
+
+                return UserEntity(
+                    user_id=user.id,
+                    name=user.name,
+                    email=user.email,
+                    password=user.password,
+                )
+            except Exception as exception:
+                database.session.rollback()
+                raise exception

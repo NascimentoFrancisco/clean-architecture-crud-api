@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 
 class SelectUserInterface(ABC):
-    """Interface to UserInsert use case"""
+    """Interface to SelectUser use case"""
 
     @abstractmethod
     def select(self, user_id: str) -> Dict:

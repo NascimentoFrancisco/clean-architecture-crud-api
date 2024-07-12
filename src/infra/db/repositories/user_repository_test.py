@@ -69,12 +69,38 @@ def test_select_user():
 
     user_repository = UserRepository()
     registry = user_repository.insert_user(name, email, password)
+    user_select = user_repository.select_user(registry.id)
 
     # Testing output
-    assert registry.name == name
-    assert registry.email == email
-    assert registry.id
+    assert user_select.name == name
+    assert user_select.email == email
+    assert user_select.id == registry.id
 
-    sql = f"DELETE FROM users WHERE email = '{registry.id}'"
+    sql = f"DELETE FROM users WHERE id = '{registry.id}'"
+    connection.execute(text(sql))
+    connection.commit()
+
+
+@pytest.mark.skip(reason="Sensive test")
+def test_update_user():
+    """Testing update user in database"""
+
+    name = "Francisco"
+    email = "testes@teste"
+    password = "password"
+
+    user_repository = UserRepository()
+    registry = user_repository.insert_user(name, email, password)
+
+    data = {"name": "Francisco Leite", "email": "francisco@email.com"}
+
+    update_user = user_repository.update_user(registry.id, **data)
+
+    # Testing output
+    assert registry.id == update_user.id
+    assert data["name"] == update_user.name
+    assert data["email"] == update_user.email
+
+    sql = f"DELETE FROM users WHERE id = '{registry.id}'"
     connection.execute(text(sql))
     connection.commit()
