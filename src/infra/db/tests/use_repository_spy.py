@@ -8,6 +8,7 @@ class UsersRpositorySpy:
     def __init__(self) -> None:
         self.insert_user_attributes = {}
         self.select_user_attributes = {}
+        self.update_user_attributes = {}
 
     def insert_user(self, name: str, email: str, password: str) -> Users:
         """Spy to all attributes"""
@@ -24,5 +25,17 @@ class UsersRpositorySpy:
             return None
 
         self.select_user_attributes["user_id"] = user_id
+
+        return user_mocks()
+
+    def update_user(self, user_id: str, **kwargs) -> Users:
+        """Spy to all attributes"""
+        self.update_user_attributes["user_id"] = user_id
+
+        if "name" in kwargs:
+            self.update_user_attributes["name"] = kwargs["name"]
+
+        if "email" in kwargs:
+            self.update_user_attributes["email"] = kwargs["email"]
 
         return user_mocks()
