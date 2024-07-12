@@ -32,3 +32,25 @@ class UserRepository(UserRepositoryInterface):
             except Exception as exception:
                 database.session.rollback()
                 raise exception
+
+    def select_user(self, user_id: str) -> UserEntity:
+        """
+        Selects a user from the database using their id
+            * parameters:
+                - user_id(str): id of  the user
+            * retrun:
+                - An object of the User entity
+        """
+
+        with DBConnectionHandler() as database:
+            try:
+                user = database.session.query(Users).filter(Users.id == user_id).one()
+                return UserEntity(
+                    user_id=user.id,
+                    name=user.name,
+                    email=user.email,
+                    password=user.password,
+                )
+            except Exception as exception:
+                database.session.rollback()
+                raise exception

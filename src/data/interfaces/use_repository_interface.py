@@ -8,3 +8,7 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def insert_user(self, name: str, email: str, password: str) -> Users:
         """abstractmethod"""
+
+    @abstractmethod
+    def select_user(self, user_id: str) -> Users:
+        """abstractmethod"""

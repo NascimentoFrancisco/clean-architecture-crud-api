@@ -57,3 +57,24 @@ def test_unique_email_insert_user():
     sql = f"DELETE FROM users WHERE email = '{email}'"
     connection.execute(text(sql))
     connection.commit()
+
+
+@pytest.mark.skip(reason="Sensive test")
+def test_select_user():
+    """Testing select user in database"""
+
+    name = "Francisco"
+    email = "testes@teste"
+    password = "password"
+
+    user_repository = UserRepository()
+    registry = user_repository.insert_user(name, email, password)
+
+    # Testing output
+    assert registry.name == name
+    assert registry.email == email
+    assert registry.id
+
+    sql = f"DELETE FROM users WHERE email = '{registry.id}'"
+    connection.execute(text(sql))
+    connection.commit()
