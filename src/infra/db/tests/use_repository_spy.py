@@ -1,4 +1,5 @@
 from src.domain.tests import user_mocks
+from src.domain.entites import Users
 
 
 class UsersRpositorySpy:
@@ -6,11 +7,22 @@ class UsersRpositorySpy:
 
     def __init__(self) -> None:
         self.insert_user_attributes = {}
+        self.select_user_attributes = {}
 
-    def insert_user(self, name: str, email: str, password: str) -> None:
+    def insert_user(self, name: str, email: str, password: str) -> Users:
         """Spy to all attributes"""
         self.insert_user_attributes["name"] = name
         self.insert_user_attributes["email"] = email
         self.insert_user_attributes["password"] = password
+
+        return user_mocks()
+
+    def select_user(self, user_id: str) -> Users | None:
+        """Spy to all attributes"""
+
+        if user_id == "not found":
+            return None
+
+        self.select_user_attributes["user_id"] = user_id
 
         return user_mocks()
