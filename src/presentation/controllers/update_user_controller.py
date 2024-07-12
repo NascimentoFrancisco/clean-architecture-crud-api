@@ -2,14 +2,14 @@ from typing import Type
 from src.presentation.http_types import HttpResponse
 from src.presentation.http_types.http_request import HttpRequest
 from src.presentation.interface import ControllerInterface
-from src.domain.use_cases import SelectUserInterface
+from src.domain.use_cases import UpdateUserInterface
 
 
-class SelectUserController(ControllerInterface):
-    """Class to define the Route to SelectUser use case"""
+class UpdateUserController(ControllerInterface):
+    """Class to define the Route to UpdateUser use case"""
 
-    def __init__(self, select_user_use_case: Type[SelectUserInterface]) -> None:
-        self.__select_user_use_case = select_user_use_case
+    def __init__(self, update_user_use_case: Type[UpdateUserInterface]) -> None:
+        self.___update_user_use_case = update_user_use_case
 
     def handle(self, http_request: HttpRequest) -> HttpResponse:
         """Method to call use case
@@ -19,6 +19,7 @@ class SelectUserController(ControllerInterface):
                 - An object of the HttpResponse
         """
         user_id = http_request.query_params["user_id"]
-        response = self.__select_user_use_case.select(user_id)
+        data = http_request.body
 
+        response = self.___update_user_use_case.update(user_id, **data)
         return HttpResponse(status_code=200, body={"data": response})
