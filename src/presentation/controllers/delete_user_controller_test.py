@@ -1,6 +1,6 @@
-from src.presentation.controllers import SelectUserController
-from src.data.tests import SelectUserSpy
 from src.presentation.http_types import HttpResponse
+from src.data.tests import DeleteUserSpy
+from .delete_user_controller import DeleteUserController
 
 
 class HttpRequestMock:
@@ -11,13 +11,13 @@ class HttpRequestMock:
 
 
 def test_handle():
-    """Testing the select route"""
+    """Testing the delte route"""
 
     http_request = HttpRequestMock()
-    use_case = SelectUserSpy()
-    select_user_controller = SelectUserController(use_case)
+    use_case = DeleteUserSpy()
+    delte_user_controller = DeleteUserController(use_case)
 
-    response = select_user_controller.handle(http_request)
+    response = delte_user_controller.handle(http_request)
 
     # Testing output
     assert isinstance(response, HttpResponse)

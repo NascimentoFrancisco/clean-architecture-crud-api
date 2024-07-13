@@ -1,12 +1,12 @@
-class SelectUserSpy:
-    """Class to define usecase: SelectUser"""
+class DeleteUserSpy:
+    """Class to define usecase: DeleteUser"""
 
     def __init__(self) -> None:
-        self.select_user_attributes = {}
+        self.delete_user_attributes = {}
 
-    def select(self, user_id: str) -> None:
+    def delete(self, user_id: str) -> None:
         """Insert user"""
-        self.select_user_attributes["user_id"] = user_id
+        self.delete_user_attributes["user_id"] = user_id
 
         return {
             "type": "users",
