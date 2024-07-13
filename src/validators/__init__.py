@@ -1,3 +1,4 @@
 from .insert_user_validator import insert_user_validator
 from .select_user_validator import select_user_validator
 from .update_user_validator import update_user_validator
+from .delete_user_validator import delete_user_validator
