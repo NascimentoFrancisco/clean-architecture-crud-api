@@ -86,3 +86,21 @@ class UserRepository(UserRepositoryInterface):
             except Exception as exception:
                 database.session.rollback()
                 raise exception
+
+    def delete_user(self, user_id: str) -> bool:
+        """
+        Delete a user from the database using their id
+            * parameters:
+                - user_id(str): id of  the user
+            * retrun:
+                - True if the operation goes well, False otherwise
+        """
+        with DBConnectionHandler() as database:
+            try:
+                user = database.session.query(Users).filter(Users.id == user_id).one()
+                database.session.delete(user)
+                database.session.commit()
+                return True
+            except Exception as exception:
+                database.session.rollback()
+                raise exception

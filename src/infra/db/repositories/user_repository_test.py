@@ -104,3 +104,20 @@ def test_update_user():
     sql = f"DELETE FROM users WHERE id = '{registry.id}'"
     connection.execute(text(sql))
     connection.commit()
+
+
+@pytest.mark.skip(reason="Sensive test")
+def test_delete_user():
+    """Testing delete user in database"""
+
+    name = "Francisco"
+    email = "testes@teste"
+    password = "password"
+
+    user_repository = UserRepository()
+    registry = user_repository.insert_user(name, email, password)
+
+    user_deleted = user_repository.delete_user(registry.id)
+
+    # Testing output
+    assert user_deleted is True
