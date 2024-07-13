@@ -16,3 +16,7 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def update_user(self, user_id: str, **kwargs) -> Users:
         """abstractmethod"""
+
+    @abstractmethod
+    def delete_user(self, user_id: str) -> bool:
+        """abstractmethod"""
