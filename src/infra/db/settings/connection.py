@@ -1,3 +1,4 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -6,8 +7,15 @@ class DBConnectionHandler:
     """SqlAlchemy database donnection"""
 
     def __init__(self) -> None:
+
+        host = os.getenv("HOST")
+        user = os.getenv("USER_DATABASE")
+        password = os.getenv("PASSWORD")
+        port = os.getenv("PORT")
+        database = os.getenv("DATABASE")
+
         self.__connection_string = (
-            "mysql+pymysql://root:root@localhost:3306/user_database"
+            f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
         )
         self.__engine = self.__create_database_engine()
         self.session = None
