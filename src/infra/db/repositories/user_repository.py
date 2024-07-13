@@ -87,7 +87,7 @@ class UserRepository(UserRepositoryInterface):
                 database.session.rollback()
                 raise exception
 
-    def delete_user(self, user_id: str) -> bool:
+    def delete_user(self, user_id: str) -> UserEntity:
         """
         Delete a user from the database using their id
             * parameters:
@@ -100,7 +100,12 @@ class UserRepository(UserRepositoryInterface):
                 user = database.session.query(Users).filter(Users.id == user_id).one()
                 database.session.delete(user)
                 database.session.commit()
-                return True
+                return UserEntity(
+                    user_id=user.id,
+                    name=user.name,
+                    email=user.email,
+                    password=user.password,
+                )
             except Exception as exception:
                 database.session.rollback()
                 raise exception

@@ -18,5 +18,5 @@ class UserRepositoryInterface(ABC):
         """abstractmethod"""
 
     @abstractmethod
-    def delete_user(self, user_id: str) -> bool:
+    def delete_user(self, user_id: str) -> Users:
         """abstractmethod"""

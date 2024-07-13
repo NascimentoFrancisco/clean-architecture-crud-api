@@ -9,6 +9,7 @@ class UsersRpositorySpy:
         self.insert_user_attributes = {}
         self.select_user_attributes = {}
         self.update_user_attributes = {}
+        self.delete_user_attributes = {}
 
     def insert_user(self, name: str, email: str, password: str) -> Users:
         """Spy to all attributes"""
@@ -37,5 +38,15 @@ class UsersRpositorySpy:
 
         if "email" in kwargs:
             self.update_user_attributes["email"] = kwargs["email"]
+
+        return user_mocks()
+
+    def delete_user(self, user_id: str) -> bool | None:
+        """Spy to all attributes"""
+
+        if user_id == "not found":
+            return None
+
+        self.delete_user_attributes["user_id"] = user_id
 
         return user_mocks()

@@ -1,6 +1,6 @@
 import pytest
 from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, NoResultFound
 from src.infra.db.settings import DBConnectionHandler
 from .user_repository import UserRepository
 
@@ -119,5 +119,8 @@ def test_delete_user():
 
     user_deleted = user_repository.delete_user(registry.id)
 
-    # Testing output
-    assert user_deleted is True
+    try:
+        user_repository.select_user(user_deleted.id)
+        assert False
+    except Exception as exception:
+        assert isinstance(exception, NoResultFound)
