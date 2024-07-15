@@ -30,7 +30,7 @@ class UpdateUser(UpdateUserInterface):
             raise HttpUnprocessableEntityError("name ou email deve ser informado")
 
         if "name" in data:
-            if not re.match(r"^[A-Za-z ]+$", data["name"]):
+            if not re.match(r"^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", data["name"]):
                 raise HttpBadRequestError("Nome inválido")
 
         if "email" in data:

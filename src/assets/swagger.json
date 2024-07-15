@@ -1,0 +1,715 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API para gerenciar usuários",
+        "version": "1.0.0",
+        "title": "User API REST(CRUD)"
+    },
+    "host": "localhost:5000",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/user/create": {
+            "post": {
+                "tags": [
+                  "Users"
+                ],
+                "summary": "Cria um novo usuário",
+                "description": "Endpoint para criar um novo usuário",
+                "operationId": "createUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {     
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "exemplo"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "exemplo@hotmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "exemplo@123"
+                                }
+                            },
+                            "required": ["name", "email", "password"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado com sucesso",
+                        "schema": {
+                            "type": "object",
+                              "properties": {
+                                  "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "attributes": {
+                                            "type": "object",
+                                            "properties": {
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "exemplo@hotmail.com"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "exemplo"
+                                                }
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "09b6b7ea-0c1b-49fc-9aba-895d268f62a8"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "users"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito - Email já existente",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Email já existente no sistema"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Conflict"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de Validação - Campo requerido ausente",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "email": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "required field"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "UnprocessableEntity"
+                                            }
+                                        }
+                                    }
+                                }
+                          }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/select":{
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtém os dados de um usuário",
+                "description": "Endpoint para obter os dados de um usuário usando o ID",
+                "operationId": "getUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do usuário retornados com sucesso",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "attributes": {
+                                            "type": "object",
+                                            "properties": {
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "exemplo@hotmail.com"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Exemplo"
+                                                }
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "93979f03-1285-4fb0-93a7-867f83c2dd51"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "users"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Usuário não encontrado"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "NotFound"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de Validação - Valor vazio não permitido",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "detail": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "user_id": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "example": "empty values not allowed"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "UnprocessableEntity"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        },
+        "/user/update": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Atualiza os dados de um usuário",
+                "description": "Endpoint para atualizar os dados de um usuário",
+                "operationId": "updateUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "exemplo"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "exemplo@hotmail.com"
+                                }
+                            },
+                            "required": ["name", "email"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário atualizado com sucesso",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "attributes": {
+                                            "type": "object",
+                                            "properties": {
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "exemplo@hotmail.com"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Exemplo"
+                                                }
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "93979f03-1285-4fb0-93a7-867f83c2dd51"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "users"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito - Email já existente",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Email já existente no sistema"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Conflict"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Usuário não encontrado"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "NotFound"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de Validação - Valor vazio não permitido",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "empty values not allowed"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "UnprocessableEntity"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Atualiza parcialmente os dados de um usuário",
+                "description": "Endpoint para atualizar parcialmente os dados de um usuário",
+                "operationId": "patchUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "exemplo"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "exemplo@hotmail.com"
+                                }
+                            },
+                            "required": ["name", "email"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário atualizado com sucesso",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "attributes": {
+                                            "type": "object",
+                                            "properties": {
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "exemplo@hotmail.com"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Exemplo"
+                                                }
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "93979f03-1285-4fb0-93a7-867f83c2dd51"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "users"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito - Email já existente",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Email já existente no sistema"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "Conflict"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Usuário não encontrado"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "NotFound"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de Validação - Valor vazio não permitido",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "empty values not allowed"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "UnprocessableEntity"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/delete": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Exclui um usuário",
+                "description": "Endpoint para excluir um usuário",
+                "operationId": "deleteUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário excluído com sucesso",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "attributes": {
+                                            "type": "object",
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Usuário Exemplo excluído com sucesso"
+                                                }
+                                            }
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "93979f03-1285-4fb0-93a7-867f83c2dd51"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "users"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "string",
+                                                "example": "Usuário não encontrado"
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "NotFound"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de Validação - Valor vazio não permitido",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "detail": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "user_id": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "empty values not allowed"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": "UnprocessableEntity"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },  
+        "definitions": {},
+        "securityDefinitions": {}
+    }   
+}   

@@ -30,7 +30,7 @@ class InsertUser(InsertUserInterface):
 
     @classmethod
     def __validate_name(cls, name: str):
-        if not re.match(r"^[A-Za-z ]+$", name):
+        if not re.match(r"^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", name):
             raise HttpBadRequestError("Nome inválido")
 
     @classmethod
