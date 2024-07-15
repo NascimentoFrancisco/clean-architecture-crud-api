@@ -10,9 +10,9 @@ class DBConnectionHandler:
 
         host = os.getenv("HOST")
         user = os.getenv("USER_DATABASE")
-        password = os.getenv("PASSWORD")
+        password = os.getenv("MYSQL_ROOT_PASSWORD")
         port = os.getenv("PORT")
-        database = os.getenv("DATABASE")
+        database = os.getenv("MYSQL_DATABASE")
 
         self.__connection_string = (
             f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
