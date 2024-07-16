@@ -2,3 +2,4 @@
 venv
 .env
 .pytest_cache
+dump.rdb

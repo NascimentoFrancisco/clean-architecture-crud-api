@@ -13,6 +13,19 @@ Para este projeto foram utilizadas algumas bibliotecas interessantes, tanto para
 
 ## Guia de uso
 
+### Com docker compose
+
+Caso queira usar este projeto por meio do doker, faça alterações necesárias:
+> No arquivo `.env`:
+~~~
+HOST=db # Aqui deve ser db, pois é o mesmo bome dado lá no docker-compose.yml
+USER_DATABASE= Your database user
+PASSWORD= Your database password
+PORT= Your database port
+DATABASE= Your name database
+~~~
+
+## Sem docker
 Antes de continuar, é relevante informar que este repositório utiliza um banco de dados MySQL, mas é possível utilizar qualquer outro banco relacional, bastando realizar as configurações de conexão necessárias na infraestrutura do projeto. Para configurar essas conexões, recomenda-se consultar a documentação do [SQLAlchemy](https://docs.sqlalchemy.org/en/20/dialects/) para identificar as práticas corretas.
 
 Após clonar o projeto, certifique-se de ter um virtualenv em sua máquina para assim instalar as dependências desta aplicação:
@@ -47,7 +60,24 @@ CREATE TABLE IF NOT EXISTS `user_database`.`users` (
     primary key (id)
 );
 ~~~
+> Execute o redis em sa máquina:
+~~~ bash
+redis-server
+~~~
+> Ajuste de conexão redis no arquivo `src/main/server/server.py`
+~~~ python
 
+""" Restante do código """
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "100 per hour"],
+    storage_uri="redis://localhost:6379",# Altere de redis://redis:6379 para redis://localhost:6379s
+)
+
+""" Restante do código """
+~~~
 > Execute os testes para ver se está tudo correto:
 ~~~ bash
 python3 pytest
