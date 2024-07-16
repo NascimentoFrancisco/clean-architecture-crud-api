@@ -1,4 +1,6 @@
 from flask import Blueprint, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from src.main.adapters import request_adapter
 from src.main.composers import insert_user_composer
 from src.main.composers import select_user_composer
@@ -13,9 +15,11 @@ from src.validators import (
 )
 
 user_routes_bp = Blueprint("user_routes", __name__)
+limiter = Limiter(key_func=get_remote_address)
 
 
 @user_routes_bp.route("/user/create", methods=["POST"])
+@limiter.limit("5 per minute")
 def insert_user():
     """Route insert User"""
 
@@ -31,6 +35,7 @@ def insert_user():
 
 
 @user_routes_bp.route("/user/select", methods=["GET"])
+@limiter.limit("10 per minute")
 def select_user():
     """Route select User"""
 
@@ -46,6 +51,7 @@ def select_user():
 
 
 @user_routes_bp.route("/user/update", methods=["PUT", "PATCH"])
+@limiter.limit("5 per minute")
 def update_user():
     """Route update User"""
 
@@ -61,6 +67,7 @@ def update_user():
 
 
 @user_routes_bp.route("/user/delete", methods=["DELETE"])
+@limiter.limit("5 per minute")
 def delete_user():
     """Route delete User"""
 
