@@ -4,6 +4,7 @@ from .types import (
     HttpConflictError,
     HttpBadRequestError,
     HttpNotFoundError,
+    HttpUnauthorizedError,
     HttpUnprocessableEntityError,
 )
 
@@ -25,7 +26,10 @@ def handler_errors(error: Exception) -> HttpResponse:
             body={"errors": [{"title": exception.name, "detail": exception.message}]},
         )
 
-    if isinstance(error, (HttpBadRequestError, HttpUnprocessableEntityError)):
+    if isinstance(
+        error,
+        (HttpBadRequestError, HttpUnprocessableEntityError, HttpUnauthorizedError),
+    ):
         return HttpResponse(
             status_code=error.status_code,
             body={"errors": [{"title": error.name, "detail": error.message}]},

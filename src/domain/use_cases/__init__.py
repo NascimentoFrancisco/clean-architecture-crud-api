@@ -3,3 +3,4 @@ from .hashing import HashingServiseInterface
 from .select_user import SelectUserInterface
 from .update_user import UpdateUserInterface
 from .delete_user import DeleteUserInterface
+from .authenticate_user import AuthenticateUserInterface

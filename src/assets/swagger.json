@@ -708,8 +708,164 @@
                     }
                 }
             }
-        },  
-        "definitions": {},
-        "securityDefinitions": {}
+        },
+        "/user/login": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "User login",
+                "description": "Login a user and receive an access token",
+                "operationId": "loginUser",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "User login credentials",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "exemplo@hotmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "sua senha"
+                                }
+                            },
+                            "required": ["email", "password"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                        "properties": {
+                                            "access_token": {
+                                                "type": "string",
+                                                "example": "token de acesso"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    "400": {
+                        "description": "Invalid email",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                            "properties": {
+                                                "detail": {
+                                                    "type": "string",
+                                                    "example": "Email inválido"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "BadRequest"
+                                                }
+                                            } 
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "detail": {
+                                                    "type": "string",
+                                                    "example": "Usuário não encontrado"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "NotFound"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "detail": {
+                                                    "type": "string",
+                                                    "example": "Credenciais fornecidas (email e senha) são inválidas"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Unauthorized"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    "422": {
+                        "description": "Validation error",
+                        "schema": {
+                            "tags": ["User"],
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "detail": {
+                                            "type": "object",
+                                            "properties": {
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "empty values not allowed"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "UnprocessableEntity"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },  
+    "definitions": {},
+    "securityDefinitions": {}
     }   
 }   

@@ -23,6 +23,8 @@ USER_DATABASE= Your database user
 PASSWORD= Your database password
 PORT= Your database port
 DATABASE= Your name database
+JWT_SECRET_KEY= Your JWT_SECRET_KEY
+REDIS_HOST= #Aqui substitua localhost por redis, ficando redis://redis:your port
 ~~~
 
 ## Sem docker
@@ -42,6 +44,8 @@ USER_DATABASE= Your database user
 PASSWORD= Your database password
 PORT= Your database port
 DATABASE= Your name database
+JWT_SECRET_KEY= Your JWT_SECRET_KEY
+REDIS_HOST= Your redis hosts
 ~~~
 
 > Abra o seu gerenciador de banco de dados e crie o bnco de dados com o seguinte comando SQL:
@@ -63,20 +67,6 @@ CREATE TABLE IF NOT EXISTS `user_database`.`users` (
 > Execute o redis em sa máquina:
 ~~~ bash
 redis-server
-~~~
-> Ajuste de conexão redis no arquivo `src/main/server/server.py`
-~~~ python
-
-""" Restante do código """
-
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["200 per day", "100 per hour"],
-    storage_uri="redis://localhost:6379",# Altere de redis://redis:6379 para redis://localhost:6379
-)
-
-""" Restante do código """
 ~~~
 > Execute os testes para ver se está tudo correto:
 ~~~ bash
@@ -105,6 +95,7 @@ http://localhost:5000/docs/
 * https://peps.python.org/pep-0008/
 * https://black.readthedocs.io/en/stable/
 * https://flake8.pycqa.org/en/latest/
+* https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
 * https://jsonapi.org/
 
 > Commits personalizados

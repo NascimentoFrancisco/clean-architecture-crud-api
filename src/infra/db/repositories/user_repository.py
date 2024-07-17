@@ -55,6 +55,28 @@ class UserRepository(UserRepositoryInterface):
                 database.session.rollback()
                 raise exception
 
+    def select_user_by_email(self, email: str) -> UserEntity:
+        """
+        Selects a user from the database using their id
+            * parameters:
+                - email(str): email of  the user
+            * retrun:
+                - An object of the User entity
+        """
+
+        with DBConnectionHandler() as database:
+            try:
+                user = database.session.query(Users).filter(Users.email == email).one()
+                return UserEntity(
+                    user_id=user.id,
+                    name=user.name,
+                    email=user.email,
+                    password=user.password,
+                )
+            except Exception as exception:
+                database.session.rollback()
+                raise exception
+
     def update_user(self, user_id: str, **kwargs) -> UserEntity:
         """
         Updates a user's data by searching for their ID

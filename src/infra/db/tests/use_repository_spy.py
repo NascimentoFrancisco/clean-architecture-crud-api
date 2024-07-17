@@ -8,6 +8,7 @@ class UsersRpositorySpy:
     def __init__(self) -> None:
         self.insert_user_attributes = {}
         self.select_user_attributes = {}
+        self.select_user_by_email_attributes = {}
         self.update_user_attributes = {}
         self.delete_user_attributes = {}
 
@@ -26,6 +27,16 @@ class UsersRpositorySpy:
             return None
 
         self.select_user_attributes["user_id"] = user_id
+
+        return user_mocks()
+
+    def select_user_by_email(self, email: str) -> Users | None:
+        """Spy to all attributes"""
+
+        if email == "not found":
+            return None
+
+        self.select_user_by_email_attributes["email"] = email
 
         return user_mocks()
 
