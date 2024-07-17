@@ -2,3 +2,4 @@ from .http_conflict import HttpConflictError
 from .http_unprocessable_entity import HttpUnprocessableEntityError
 from .http_bad_request import HttpBadRequestError
 from .http_not_found import HttpNotFoundError
+from .http_unauthorized import HttpUnauthorizedError
