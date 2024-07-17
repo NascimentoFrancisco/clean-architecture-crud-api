@@ -14,5 +14,4 @@ class JwtService(JwtServiceInterface):
                 - An object of the Dict
         """
         access_token = create_access_token(identity=email)
-        print(access_token)
         return {"access_token": access_token}
