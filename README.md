@@ -73,7 +73,7 @@ limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=["200 per day", "100 per hour"],
-    storage_uri="redis://localhost:6379",# Altere de redis://redis:6379 para redis://localhost:6379s
+    storage_uri="redis://localhost:6379",# Altere de redis://redis:6379 para redis://localhost:6379
 )
 
 """ Restante do código """
