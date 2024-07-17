@@ -14,6 +14,10 @@ class UserRepositoryInterface(ABC):
         """abstractmethod"""
 
     @abstractmethod
+    def select_user_by_email(self, email: str) -> Users:
+        """abstractmethod"""
+
+    @abstractmethod
     def update_user(self, user_id: str, **kwargs) -> Users:
         """abstractmethod"""
 
