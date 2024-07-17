@@ -87,7 +87,7 @@ def delete_user():
 @user_routes_bp.route("/user/login", methods=["POST"])
 @limiter.limit("10 per minute")
 def login_user():
-    """Route delete User"""
+    """Route authenticate User"""
 
     http_response = None
 

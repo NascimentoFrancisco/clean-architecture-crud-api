@@ -23,7 +23,7 @@ limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=["200 per day", "100 per hour"],
-    storage_uri="redis://localhost:6379",
+    storage_uri=os.getenv("REDIS_HOST"),
 )
 
 app.register_blueprint(user_routes_bp)
