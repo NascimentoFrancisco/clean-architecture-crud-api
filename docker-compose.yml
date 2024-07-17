@@ -10,17 +10,25 @@ services:
       - .env
     depends_on:
       - db
+      - redis
 
   db:
     image: mysql:8.0
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: ${PASSWORD}
-      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./init/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  redis:
+    image: redis:latest
+    container_name: redis_server
+    ports:
+      - "6379:6379"
 
 volumes:
   db_data:

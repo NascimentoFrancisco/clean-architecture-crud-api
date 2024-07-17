@@ -5,6 +5,8 @@ FROM python:3.12
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
+RUN apt-get update
+RUN apt-get install -y redis-server
 RUN pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 
