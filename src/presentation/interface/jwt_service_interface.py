@@ -8,3 +8,7 @@ class JwtServiceInterface(ABC):
     @abstractmethod
     def generate_access_token(self, email: str) -> Dict:
         """abstractmethod"""
+
+    @abstractmethod
+    def get_logged_user_identity(self) -> str:
+        """abstractmethod"""
