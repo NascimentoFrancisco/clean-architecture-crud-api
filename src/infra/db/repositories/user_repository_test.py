@@ -146,3 +146,48 @@ def test_delete_user():
         assert False
     except Exception as exception:
         assert isinstance(exception, NoResultFound)
+
+
+@pytest.mark.skip(reason="Sensive test")
+def test_change_password_user():
+    """Testing change password"""
+
+    name = "Francisco"
+    email = "testes@teste.com"
+    password = "password"
+    new_password = "new#password"
+
+    user_repository = UserRepository()
+    registry = user_repository.insert_user(name, email, password)
+
+    user_chenged = user_repository.change_password_user(email, new_password)
+
+    # Testing output
+    assert user_chenged.password == new_password
+
+    sql = f"DELETE FROM users WHERE id = '{registry.id}'"
+    connection.execute(text(sql))
+    connection.commit()
+
+
+@pytest.mark.skip(reason="Sensive test")
+def test_change_password_email_invalid_user():
+    """Testing change password email invalid"""
+
+    name = "Francisco"
+    email = "testes@teste.com"
+    password = "password"
+    new_password = "new#password"
+
+    user_repository = UserRepository()
+    registry = user_repository.insert_user(name, email, password)
+
+    try:
+        user_repository.change_password_user("email", new_password)
+        assert False
+    except Exception as exception:
+        assert isinstance(exception, NoResultFound)
+
+    sql = f"DELETE FROM users WHERE id = '{registry.id}'"
+    connection.execute(text(sql))
+    connection.commit()
