@@ -3,3 +3,4 @@ from .select_user_controller import SelectUserController
 from .update_user_controller import UpdateUserController
 from .delete_user_controller import DeleteUserController
 from .authenticate_user_controller import AuthenticateUserController
+from .change_password_user_controller import ChangePasswordUserController

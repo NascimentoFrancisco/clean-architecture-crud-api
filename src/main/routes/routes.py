@@ -7,6 +7,8 @@ from src.main.composers import select_user_composer
 from src.main.composers import update_user_composer
 from src.main.composers import delete_user_composer
 from src.main.composers import authenticate_user_composer
+from src.main.composers import change_password_user_composer
+from src.auth.decoratos import custom_jwt_required
 from src.errors import handler_errors
 from src.validators import (
     insert_user_validator,
@@ -14,6 +16,7 @@ from src.validators import (
     update_user_validator,
     delete_user_validator,
     authenticate_user_validator,
+    change_password_user_validator,
 )
 
 user_routes_bp = Blueprint("user_routes", __name__)
@@ -94,6 +97,23 @@ def login_user():
     try:
         authenticate_user_validator(request)
         http_response = request_adapter(request, authenticate_user_composer())
+    except Exception as exception:
+        http_response = handler_errors(exception)
+
+    return jsonify(http_response.body), http_response.status_code
+
+
+@user_routes_bp.route("/user/change-password", methods=["POST"])
+@limiter.limit("10 per minute")
+@custom_jwt_required()
+def change_password():
+    """Route authenticate User"""
+
+    http_response = None
+
+    try:
+        change_password_user_validator(request)
+        http_response = request_adapter(request, change_password_user_composer())
     except Exception as exception:
         http_response = handler_errors(exception)
 

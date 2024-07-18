@@ -3,3 +3,4 @@ from .select_user_composers import select_user_composer
 from .update_user_composers import update_user_composer
 from .delete_user_composers import delete_user_composer
 from .authenticate_user_composers import authenticate_user_composer
+from .change_password_user_composers import change_password_user_composer
