@@ -14,7 +14,7 @@ class UserRepository(UserRepositoryInterface):
                 - name(str): name of  the user
                 - email(str): email of  the user
                 - password(str): password of  the user
-            * retrun:
+            * return:
                 - An object of the User entity
         """
         with DBConnectionHandler() as database:
@@ -38,7 +38,7 @@ class UserRepository(UserRepositoryInterface):
         Selects a user from the database using their id
             * parameters:
                 - user_id(str): id of  the user
-            * retrun:
+            * return:
                 - An object of the User entity
         """
 
@@ -57,10 +57,10 @@ class UserRepository(UserRepositoryInterface):
 
     def select_user_by_email(self, email: str) -> UserEntity:
         """
-        Selects a user from the database using their id
+        Selects a user from the database using their email
             * parameters:
                 - email(str): email of  the user
-            * retrun:
+            * return:
                 - An object of the User entity
         """
 
@@ -84,7 +84,7 @@ class UserRepository(UserRepositoryInterface):
                 - user_id: id of the user(necessary parameter to identify the user for the role)
                 - name(str): name of  the user(Default value null if none provided)
                 - email(str): email of  the user(Default value null if none provided)
-            * retrun:
+            * return:
                 - An object of the User entity
         """
         with DBConnectionHandler() as database:
@@ -114,14 +114,41 @@ class UserRepository(UserRepositoryInterface):
         Delete a user from the database using their id
             * parameters:
                 - user_id(str): id of  the user
-            * retrun:
-                - True if the operation goes well, False otherwise
+            * return:
+                - An object of the User entity
         """
         with DBConnectionHandler() as database:
             try:
                 user = database.session.query(Users).filter(Users.id == user_id).one()
                 database.session.delete(user)
                 database.session.commit()
+                return UserEntity(
+                    user_id=user.id,
+                    name=user.name,
+                    email=user.email,
+                    password=user.password,
+                )
+            except Exception as exception:
+                database.session.rollback()
+                raise exception
+
+    def change_password_user(self, email: str, new_password: str) -> UserEntity:
+        """
+        Select user via email and change password
+            * parameters:
+                - email(str): email of  the user
+                - new_password(str): new password that the user entered
+            * return:
+                - An object of the User entity
+        """
+        with DBConnectionHandler() as database:
+            try:
+                user = database.session.query(Users).filter(Users.email == email).one()
+                user.password = new_password
+
+                database.session.commit()
+                database.session.refresh(user)
+
                 return UserEntity(
                     user_id=user.id,
                     name=user.name,

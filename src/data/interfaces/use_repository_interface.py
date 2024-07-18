@@ -24,3 +24,7 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def delete_user(self, user_id: str) -> Users:
         """abstractmethod"""
+
+    @abstractmethod
+    def change_password_user(self, email: str, new_password: str) -> Users:
+        """abstractmethod"""

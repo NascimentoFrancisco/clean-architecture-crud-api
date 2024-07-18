@@ -1,4 +1,6 @@
 from sqlalchemy.exc import IntegrityError, NoResultFound
+from flask_jwt_extended.exceptions import NoAuthorizationError
+from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
 from src.presentation.http_types import HttpResponse
 from .types import (
     HttpConflictError,
@@ -21,6 +23,15 @@ def handler_errors(error: Exception) -> HttpResponse:
 
     if isinstance(error, NoResultFound):
         exception = HttpNotFoundError("Usuário não encontrado")
+        return HttpResponse(
+            status_code=exception.status_code,
+            body={"errors": [{"title": exception.name, "detail": exception.message}]},
+        )
+
+    if isinstance(
+        error, (NoAuthorizationError, ExpiredSignatureError, InvalidSignatureError)
+    ):
+        exception = HttpUnauthorizedError(str(error))
         return HttpResponse(
             status_code=exception.status_code,
             body={"errors": [{"title": exception.name, "detail": exception.message}]},

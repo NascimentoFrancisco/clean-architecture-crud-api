@@ -11,6 +11,7 @@ class UsersRpositorySpy:
         self.select_user_by_email_attributes = {}
         self.update_user_attributes = {}
         self.delete_user_attributes = {}
+        self.change_password_user_user_attributes = {}
 
     def insert_user(self, name: str, email: str, password: str) -> Users:
         """Spy to all attributes"""
@@ -59,5 +60,16 @@ class UsersRpositorySpy:
             return None
 
         self.delete_user_attributes["user_id"] = user_id
+
+        return user_mocks()
+
+    def change_password_user(self, email: str, new_password: str) -> Users | None:
+        """Spy to test change password"""
+
+        if email == "email":
+            return None
+
+        self.change_password_user_user_attributes["email"] = email
+        self.change_password_user_user_attributes["new_password"] = new_password
 
         return user_mocks()

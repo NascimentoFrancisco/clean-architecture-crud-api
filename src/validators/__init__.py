@@ -3,3 +3,4 @@ from .select_user_validator import select_user_validator
 from .update_user_validator import update_user_validator
 from .delete_user_validator import delete_user_validator
 from .authenticate_user_validator import authenticate_user_validator
+from .change_password_user_validator import change_password_user_validator

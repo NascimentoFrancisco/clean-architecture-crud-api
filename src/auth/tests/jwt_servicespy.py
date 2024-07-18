@@ -12,3 +12,7 @@ class JwtServiceSpy:
         self.jwt_attributes["email"] = email
 
         return {"access_token": "access_token"}
+
+    def get_logged_user_identity(self) -> str:
+        """Method spy to test"""
+        return "email@teste.com"

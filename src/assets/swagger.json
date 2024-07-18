@@ -863,6 +863,170 @@
                     }
                 }
             }
+        }   
+    },
+    "/user/change-password": {
+        "post": {
+            "tags": [
+                "Users"
+            ],
+            "summary": "Change Password",
+            "description": "Endpoint to change the user's password",
+            "operationId": "changePassword",
+            "consumes": [
+                "application/json"
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Bearer token",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "body",
+                    "description": "JSON payload to change the password",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "new_password": {
+                                "type": "string",
+                                "example": "exemplo@123"
+                            },
+                            "password_confirmation": {
+                                "type": "string",
+                                "example": "exemplo@123"
+                            }
+                        },
+                        "required": [
+                            "new_password",
+                            "password_confirmation"
+                        ]
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Password changed successfully",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                            "type": "object",
+                                "properties": {
+                                    "attributes": {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string",
+                                                "example": "Senha alterado com sucesso"
+                                            }
+                                        }
+                                    },
+                                    "count": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id": {
+                                        "type": "string",
+                                        "example": "idididididididididididididid"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "users"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "errors": {
+                                "type": "array",
+                                    "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "detail": {
+                                            "type": "string",
+                                            "example": "Senha diferente da confirmação de senha"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "BadRequest"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "401": {
+                    "description": "Unauthorized",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "errors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "detail": {
+                                            "type": "string",
+                                            "example": "Signature has expired"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "422": {
+                    "description": "Unprocessable Entity",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "errors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "detail": {
+                                            "type": "object",
+                                            "properties": {
+                                                "new_password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "required field"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "UnprocessableEntity"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },  
     "definitions": {},
